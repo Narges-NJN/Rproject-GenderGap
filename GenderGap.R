@@ -27,10 +27,9 @@ ggplot(gapDT, aes(x = gap)) +
   labs(title = "Distribution of Gender Gap in Employment Rates",
        x = "Gender Gap (M - F)",
        y = "Frequency")
-create_correlation_network <- function(data, time_period, year, threshold) {
+create_correlation_network <- function(data, time_period, threshold) {
   # Filter data for the given time period
   data_filtered <- data[TIME_PERIOD == time_period]
-  data_filtered <- data[age == year]
   # Create a wide format data.table with countries as columns and age groups as rows
   data_wide <- dcast(data_filtered, age ~ geo, value.var = "gap")
   
@@ -47,7 +46,7 @@ create_correlation_network <- function(data, time_period, year, threshold) {
 }
 library(igraph)
 # Example: Create a correlation network for 2020 with a threshold of 0.7
-network_2020 <- create_correlation_network(gapDT, 2020,"Y25-54", 0.1)
+network_2020 <- create_correlation_network(gapDT, 2020, 0.5)
 
 # Plot the network
 plot(network_2020, edge.width = E(network_2020)$weight * 5, vertex.size = 10, vertex.label.cex = 0.8)
